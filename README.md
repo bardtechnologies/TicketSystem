@@ -6,7 +6,7 @@ When you first clone...
 Run these commands. 
 ```
 cd back-end
-sudo apt-get install php8.1 php-xml php8.1-curl composer
+sudo apt-get install php-xml php-curl composer
 composer install
 ```
 Open ~/.bashrc and add the following line at the end. 
