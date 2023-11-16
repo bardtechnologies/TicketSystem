@@ -13,11 +13,11 @@ class SupportArticle extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['text'];
+    protected $fillable = ['name'];
     
     public function product(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class)
+        return $this->belongsToMany(Product::class);
     }
 
 }

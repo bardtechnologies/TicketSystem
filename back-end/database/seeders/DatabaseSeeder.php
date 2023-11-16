@@ -25,8 +25,7 @@ use \Database\Seeders\IssueSystem\IssueSeeder;
 //General
 use \Database\Seeders\General\CommentSeeder;
 use \Database\Seeders\General\FileSeeder;
-
-
+use \Database\Seeders\General\SupportArticleSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -54,6 +53,7 @@ class DatabaseSeeder extends Seeder
             IssuePrioritySeeder::class,
             IssueSeeder::class,
             FileSeeder::class,
+            SupportArticleSeeder::class,
         ]);
     }
 }

@@ -17,7 +17,7 @@ class SupportArticleFactory extends Factory
     public function definition(): array
     {
         return [
-            'text' => fake()->paragraph,
+            'name' => fake()->sentence($nbWords = 6, $variableNbWords = true),
         ];
     }
 }

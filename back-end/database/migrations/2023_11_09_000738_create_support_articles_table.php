@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('support_articles', function (Blueprint $table) {
             $table->id();
-            $table->text('text');
+            $table->string('name');
             $table->timestamps();
         });
     }
