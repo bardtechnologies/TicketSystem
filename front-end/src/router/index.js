@@ -26,5 +26,17 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
+   // ROUTER GAURDS
+   Router.beforeEach((to, from) => {
+    const store = userInformationStore()
+    const isAuthenticated = store.isAuthenticated
+    if (!isAuthenticated &&
+        to.name !== 'Login' &&
+        to.name !== 'Register' &&
+        to.name !== 'Home'
+    ) { return { name: 'Login' } }
+  })
+
+
   return Router
 })
