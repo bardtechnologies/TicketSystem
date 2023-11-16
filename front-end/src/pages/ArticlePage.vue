@@ -1,11 +1,23 @@
 <template>
   <q-page padding>
-    <!-- content -->
+    <q-table 
+      title="Articles"
+      :rows="rows"
+    />
   </q-page>
 </template>
 
-<script>
-export default {
-  // name: 'PageName',
-}
+<script setup>
+import { ref, onMounted } from 'vue'
+import { api } from 'boot/axios'
+
+const rows = ref([])
+
+onMounted(() => {
+  api.get('/support-articles')
+  .then(response => {
+    rows.value = response.data
+  })
+})
+
 </script>
