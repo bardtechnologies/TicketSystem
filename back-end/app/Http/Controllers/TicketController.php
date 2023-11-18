@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Ticket;
@@ -60,4 +61,16 @@ class TicketController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function ticketData()
+    {
+        //
+        $tickets = DB::table('tickets')
+        ->from('ticket_statuses as status')
+        ->select('id', 'name', 'status.name')
+        ->get();
+
+        return response()->json(null, 204);
+    }
+
 }
