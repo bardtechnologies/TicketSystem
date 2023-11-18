@@ -1,4 +1,5 @@
 import { route } from 'quasar/wrappers'
+import { Cookies } from 'quasar'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 
@@ -25,6 +26,22 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
+
+   // ROUTER GAURDS
+
+   //Authenticated Gaurd
+   Router.beforeEach((to, from) => {
+    const isAuthenticated = !Cookies.get('is_authenticated')
+    console.log(isAuthenticated);
+    console.log(to.name);
+    if (isAuthenticated &&
+        to.name !== 'Login'
+    ) {
+      console.log('reroute')
+      return { name: 'Login' }
+    }
+  })
+
 
   return Router
 })
