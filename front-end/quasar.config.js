@@ -112,7 +112,8 @@ module.exports = configure(function (/* ctx */) {
         'Meta',
         'Notify',
         'LocalStorage',
-        'SessionStorage'
+        'SessionStorage',
+        'Cookies'
       ]
     },
 
