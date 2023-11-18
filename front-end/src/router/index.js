@@ -31,10 +31,8 @@ export default route(function (/* { store, ssrContext } */) {
 
    //Authenticated Gaurd
    Router.beforeEach((to, from) => {
-    const isAuthenticated = !Cookies.get('is_authenticated')
-    console.log(isAuthenticated);
-    console.log(to.name);
-    if (isAuthenticated &&
+    const isAuthenticated = Cookies.get('is_authenticated') === 'true'
+    if (!isAuthenticated &&
         to.name !== 'Login'
     ) {
       console.log('reroute')
