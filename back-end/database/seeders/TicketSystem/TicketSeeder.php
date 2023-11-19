@@ -16,6 +16,6 @@ class TicketSeeder extends Seeder
     public function run()
     {
         // Use the Ticket factory to create 10 ticket entries
-        Ticket::factory()->count(10)->create();
+        Ticket::factory()->count(1000)->create();
     }
 }

@@ -62,15 +62,22 @@ class TicketController extends Controller
         return response()->json(null, 204);
     }
 
-    public function ticketData()
+    public function ticketData(Request $request)
     {
         //
+
+        $rowsPerPage = $request->pagination['rowsPerPage'];
+        $page = $request->pagination['page'];
         $tickets = DB::table('tickets')
-        ->from('ticket_statuses as status')
-        ->select('id', 'name', 'status.name')
+        ->join('ticket_statuses', 'ticket_statuses.id', '=', 'tickets.ticket_status_id')
+        ->join('ticket_priorities', 'ticket_priorities.id', '=', 'tickets.ticket_priority_id')
+        ->join('products', 'products.id', '=', 'tickets.product_id')
+        ->join('users', 'users.id', '=', 'tickets.assigned_user_id')
+        ->select('tickets.id', 'tickets.name', 'ticket_statuses.name as Status', 'ticket_priorities.name as Priority', 'users.name as Assigned', 'products.name as Product')
+        ->take($rowsPerPage * 50)
         ->get();
 
-        return response()->json(null, 204);
+        return response()->json($tickets, 200);
     }
 
 }
