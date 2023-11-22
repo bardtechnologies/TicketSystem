@@ -5,7 +5,14 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '',  name: 'Index', component: () => import('pages/IndexPage.vue') },
-      { path: '/ticket', name: 'Tickets', component: () => import('pages/TicketPage.vue') },
+      {
+        path: '/ticket',
+        name: 'Tickets',
+        component: () => import('pages/ticket/TicketIndexPage.vue'),
+        props: true,
+        children: [
+          { path: '/ticket/:id', name: 'TicketEditor', component: () => import('pages/ticket/TicketPage.vue'), props: true },
+      ]},
       { path: '/article',  name: 'Articles', component: () => import('pages/ArticlePage.vue') }
     ]
   },
