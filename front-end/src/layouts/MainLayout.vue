@@ -22,8 +22,8 @@
           flat
           color="primary"
           text-color="light"
-          label="Login"
-          to="login"
+          label="Logout"
+          @click="logout"
         />
       </q-toolbar>
     </q-header>
@@ -54,43 +54,58 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
-import { api } from 'boot/axios'
+  import { ref, onMounted} from 'vue'
+  import { useRouter } from 'vue-router'
+  import { useQuasar } from 'quasar'
+  import EssentialLink from 'components/EssentialLink.vue'
+  import { api } from 'boot/axios'
 
-const leftDrawerOpen = ref(false)
+  const $q = useQuasar()
+  const router = useRouter()
 
-const linksList = [
-  {
-    title: 'Tickets',
-    caption: 'Tickets Page',
-    icon: 'code',
-    link: '/ticket'
-  },
-  {
-    title: 'Articles',
-    caption: 'Knowledge Base Articles',
-    icon: 'book',
-    link: '/article'
+  const leftDrawerOpen = ref(false)
+
+  const linksList = [
+    {
+      title: 'Tickets',
+      caption: 'Tickets Page',
+      icon: 'code',
+      link: '/ticket'
+    },
+    {
+      title: 'Articles',
+      caption: 'Knowledge Base Articles',
+      icon: 'book',
+      link: '/article'
+    }
+  ]
+
+  const logout = () => {
+      const response = api.post('/logout').then(response => {
+        $q.cookies.set('is_authenticated', false);
+        router.push('/login')
+      }).catch(err => {
+      console.error(err);
+    });
   }
-]
 
-onMounted(async () => {
-  await api.get('/sanctum/csrf-cookie')
-  await api.post('/login', {
-    email: 'test@example.com',
-    password: 'password'
-  }).then(response => {
-    console.log(response.data);
+
+  onMounted(async () => {
+    await api.get('/sanctum/csrf-cookie')
+    await api.get('/api/user').then(response => {
+      if (response.status === 200) {
+        $q.cookies.set('is_authenticated', true);
+      }else{
+        $q.cookies.set('is_authenticated', false);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+    });
   })
-  .catch(err => {
-    console.error(err);
-  });
-})
 
-function toggleLeftDrawer(){
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
-
+  function toggleLeftDrawer(){
+    leftDrawerOpen.value = !leftDrawerOpen.value
+  }
 
 </script>
