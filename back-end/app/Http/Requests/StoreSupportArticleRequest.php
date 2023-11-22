@@ -22,7 +22,7 @@ class StoreSupportArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'text' => 'required|string',
+            'name' => 'required|string',
         ];
     }
 }

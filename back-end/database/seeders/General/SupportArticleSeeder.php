@@ -15,6 +15,6 @@ class SupportArticleSeeder extends Seeder
      */
     public function run(): void
     {
-        SupportArticle::factory()->count(10)->create();
+        SupportArticle::factory()->count(5000)->create();
     }
 }

@@ -4,9 +4,9 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '',  name: 'Index', component: () => import('pages/IndexPage.vue') },
-      { path: '/ticket', name: 'Tickets', component: () => import('pages/TicketPage.vue') },
-      { path: '/article',  name: 'Articles', component: () => import('pages/ArticlePage.vue') }
+      { path: '', component: () => import('pages/IndexPage.vue') },
+      { path: '/ticket', component: () => import('pages/TicketPage.vue') },
+      { path: '/article/:id', component: () => import('pages/ArticlePage.vue'), props:true }
     ]
   },
   {
