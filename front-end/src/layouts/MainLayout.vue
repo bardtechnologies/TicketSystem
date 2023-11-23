@@ -82,7 +82,7 @@
 
   const logout = () => {
       const response = api.post('/logout').then(response => {
-        $q.cookies.set('is_authenticated', false);
+        $q.cookies.set('is_authenticated', false, {path: '/'});
         router.push('/login')
       }).catch(err => {
       console.error(err);
@@ -94,12 +94,14 @@
     await api.get('/sanctum/csrf-cookie')
     await api.get('/api/user').then(response => {
       if (response.status === 200) {
-        $q.cookies.set('is_authenticated', true);
-      }else{
-        $q.cookies.set('is_authenticated', false);
+        $q.cookies.set('is_authenticated', true, {path: '/'});
       }
     })
     .catch(err => {
+      if (err.response.status === 401) {
+        console.log(err.response.status )
+        $q.cookies.set('is_authenticated', false, {path: '/'});
+      }
       console.error(err);
     });
   })
