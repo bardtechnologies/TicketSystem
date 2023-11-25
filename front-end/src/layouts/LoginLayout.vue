@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+  import { ref, onMounted} from 'vue'
   import { useQuasar } from 'quasar'
   import { api } from 'boot/axios'
   import { useRouter } from 'vue-router'
@@ -70,7 +70,7 @@
       email: form.value.username,
       password: form.value.password
     }).then(response => {
-        $q.cookies.set('is_authenticated', true)
+        $q.cookies.set('is_authenticated', true, {path: '/'})
         router.push('/article')
     })
     .catch(err => {
@@ -84,12 +84,28 @@
       email: 'test@example.com',
       password: 'password'
     }).then(response => {
-      $q.cookies.set('is_authenticated', true)
+      $q.cookies.set('is_authenticated', true, {path: '/'})
       router.push('/article')
     })
     .catch(err => {
       console.error(err);
     });
   }
+
+  onMounted(async () => {
+    await api.get('/sanctum/csrf-cookie')
+    await api.get('/api/user').then(response => {
+      if (response.status === 200) {
+        $q.cookies.set('is_authenticated', true, {path: '/'});
+      }
+    })
+    .catch(err => {
+      if (err.response.status === 401) {
+        console.log(err.response.status )
+        $q.cookies.set('is_authenticated', false, {path: '/'});
+      }
+      console.error(err);
+    });
+  })
 
 </script>
