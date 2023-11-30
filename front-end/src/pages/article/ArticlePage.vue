@@ -9,17 +9,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps } from 'vue'
+import { ref, onMounted } from 'vue'
 import { api } from 'boot/axios'
 
 const props = defineProps(['id'])
 const rows = ref([])
 
 onMounted(() => {
-  if (props.id === null) {
-    api.get('/support-articles')
+  if (props.id !== null) {
+    api.get(`/api/support-articles/${props.id}`)
     .then(response => {
-      rows.value = response.data
+      rows.value = [response.data]
     })
   } else {
     // call API for specific article. 

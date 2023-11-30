@@ -9,14 +9,14 @@
   </template>
   
   <script setup>
-  import { ref, onMounted, defineProps } from 'vue'
+  import { ref, onMounted } from 'vue'
   import { api } from 'boot/axios'
   
 //   const props = defineProps(['id'])
   const rows = ref([])
   
   onMounted(() => {
-    api.get('/support-articles')
+    api.get('/api/support-articles')
     .then(response => {
     rows.value = response.data
     })
