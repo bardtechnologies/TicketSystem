@@ -4,9 +4,11 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: '/ticket', component: () => import('pages/TicketPage.vue') },
-      { path: '/article/:id', component: () => import('pages/ArticlePage.vue'), props:true }
+      { path: '',  name: 'Index', component: () => import('pages/IndexPage.vue') },
+      { path: '/ticket', name: 'TicketIndex', component: () => import('pages/ticket/TicketIndexPage.vue') },
+      { path: '/ticket/:id', name: 'TicketEditor', component: () => import('pages/ticket/TicketPage.vue'), props: true },
+      { path: '/article',  name: 'ArticleIndex', component: () => import('pages/article/ArticleIndexPage.vue') },
+      { path: '/article/:id', name: 'Article', component: () => import('pages/article/ArticlePage.vue'), props:true }
     ]
   },
   {

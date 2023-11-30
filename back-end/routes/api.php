@@ -4,7 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
+//Ticket Routes
 use App\Http\Controllers\TicketController;
+
+Route::controller(TicketController::class)->middleware(['auth'])->group(function () {
+    Route::post('/ticket-data', 'ticketData');
+    Route::get('/ticket-count', 'tableLength');
+});
+
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TicketStatusController;
