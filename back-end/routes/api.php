@@ -69,3 +69,7 @@ Route::apiResource('templates', TemplateController::class)
 ->middleware('auth');
 Route::apiResource('comments', CommentController::class)
 ->middleware('auth');
+
+Route::controller(SupportArticleController::class)->middleware(['auth'])->group(function () {
+    Route::post('/article-data', 'articleData');
+});
