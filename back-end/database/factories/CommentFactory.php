@@ -17,9 +17,9 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => fake()->numberBetween(1, 10), 
+            'user_id' => fake()->numberBetween(1, 10),
             'commentable_id' => fake()->numberBetween(1, 10),
-            'commentable_type' => fake()->randomElement(['ticket', 'issue']),
+            'commentable_type' => fake()->randomElement(['App\Models\Ticket', 'App\Models\Issue']),
             'text' => fake()->sentence,
         ];
     }

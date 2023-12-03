@@ -7,7 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+
 use App\Models\Ticket;
+use App\Models\TicketStatus;
+use App\Models\TicketPriority;
+use App\Models\User;
+use App\Models\Comment;
 
 class TicketController extends Controller
 {
@@ -132,6 +137,37 @@ class TicketController extends Controller
 
         return response()->json($tickets, 200);
     }
+
+    public function ticketDataSingle(Request $request)
+    {
+        $id = $request['id'];
+
+        $tickets = DB::table('tickets')
+        ->leftJoin('ticket_statuses', 'ticket_statuses.id', '=', 'tickets.ticket_status_id')
+        ->leftJoin('ticket_priorities', 'ticket_priorities.id', '=', 'tickets.ticket_priority_id')
+        ->leftJoin('products', 'products.id', '=', 'tickets.product_id')
+        ->leftJoin('users', 'users.id', '=', 'tickets.assigned_user_id')
+        ->where('tickets.id', '=', $id)
+        ->select('tickets.id as ID', 'tickets.name as Name',  'tickets.description as Description', 'ticket_statuses.name as Status', 'ticket_priorities.name as Priority', 'users.name as Assigned', 'products.name as Product')
+        ->first();
+
+        return response()->json($tickets, 200);
+    }
+
+    public function ticketOptions()
+    {
+        $ticketStatuses = TicketStatus::all();
+        $ticketPriority = TicketPriority::all();
+        $users = User::all();
+        $data = [
+            "Status" => $ticketStatuses,
+            "Priority" => $ticketPriority,
+            "Users" => $users,
+        ];
+        return response()->json($data, 200);
+    }
+
+
 
     public function tableLength()
     {

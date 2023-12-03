@@ -83,6 +83,7 @@
   const logout = () => {
       const response = api.post('/logout').then(response => {
         $q.cookies.set('is_authenticated', false, {path: '/'});
+        $q.cookies.set('user_id', null, {path: '/'})
         router.push('/login')
       }).catch(err => {
       console.error(err);
@@ -95,12 +96,14 @@
     await api.get('/api/user').then(response => {
       if (response.status === 200) {
         $q.cookies.set('is_authenticated', true, {path: '/'});
+        $q.cookies.set('user_id', response.data.id, {path: '/'})
       }
     })
     .catch(err => {
       if (err.response.status === 401) {
         console.log(err.response.status )
         $q.cookies.set('is_authenticated', false, {path: '/'});
+        $q.cookies.set('user_id', null, {path: '/'})
       }
       console.error(err);
     });

@@ -14,6 +14,7 @@ class Comment extends Model
     protected $fillable = ['user_id', 'commentable_id', 'commentable_type', 'text'];
 
 
+
     // You can add any custom methods or relationships here if needed
     public function user()
     {

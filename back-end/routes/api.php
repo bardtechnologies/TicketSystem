@@ -6,12 +6,6 @@ use Illuminate\Support\Facades\Route;
 
 //Ticket Routes
 use App\Http\Controllers\TicketController;
-
-Route::controller(TicketController::class)->middleware(['auth'])->group(function () {
-    Route::post('/ticket-data', 'ticketData');
-    Route::get('/ticket-count', 'tableLength');
-});
-
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TicketStatusController;
@@ -69,3 +63,16 @@ Route::apiResource('templates', TemplateController::class)
 ->middleware('auth');
 Route::apiResource('comments', CommentController::class)
 ->middleware('auth');
+
+
+
+Route::controller(TicketController::class)->middleware(['auth'])->group(function () {
+    Route::post('/ticket-data', 'ticketData');
+    Route::post('/ticket-data-single', 'ticketDataSingle');
+    Route::get('/ticket-count', 'tableLength');
+    Route::get('/ticket-options', 'ticketOptions');
+});
+
+Route::controller(CommentController::class)->middleware(['auth'])->group(function () {
+    Route::post('/comments-ticket', 'ticketComments');
+});

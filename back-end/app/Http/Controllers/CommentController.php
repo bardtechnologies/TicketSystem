@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Comment;
@@ -36,7 +37,7 @@ class CommentController extends Controller
             return response()->json($comment, 201);
         } catch (QueryException $e) {
             // Handle database-related errors
-            return response()->json(['error' => 'Database error'], 500);
+            return response()->json(['error' => $e], 500);
         }
     }
 
@@ -79,5 +80,17 @@ class CommentController extends Controller
     {
         $comment->delete();
         return response()->json(null, 204);
+    }
+
+    public function ticketComments(Request $request){
+
+        $id = $request->id;
+
+        $comments = Comment::where('commentable_id', $id)
+        ->leftJoin('users', 'users.id', '=', 'comments.user_id')
+        ->select('comments.id as id', 'comments.text as text', 'comments.created_at', 'users.name as user_name')
+        ->get();
+
+        return response()->json($comments, 200);
     }
 }
