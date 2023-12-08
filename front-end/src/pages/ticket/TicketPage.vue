@@ -1,20 +1,18 @@
-<template >
-  <q-page padding >
-    {{id}}
+<template>
+  <q-page padding>
+    {{ id }}
   </q-page>
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue'
-  import { api } from 'boot/axios'
+import { ref, onMounted } from "vue";
+import { api } from "boot/axios";
 
-  const props = defineProps(['id'])
+const props = defineProps(["id"]);
 
-  onMounted(() => {
-    api.get('api/tickets/' + props.id)
-    .then(response => {
-      //Post
-    })
-  })
+onMounted(() => {
+  api.get("api/tickets/" + props.id).then((response) => {
+    //Post
+  });
+});
 </script>
-
