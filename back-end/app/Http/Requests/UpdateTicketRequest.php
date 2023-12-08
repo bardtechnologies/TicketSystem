@@ -24,12 +24,12 @@ class UpdateTicketRequest extends FormRequest
         return [
             'assigned_user_id' => 'required',
             'client_user_id' => 'required',
-            'product_id' => 'required',
+            //'product_id' => 'required',
             'ticket_status_id' => 'required',
             'ticket_priority_id' => 'required',
             'name' => 'required',
             'description' => 'required',
-            'date_closed' => 'required',
+            //'date_closed' => 'required',
         ];
     }
 }

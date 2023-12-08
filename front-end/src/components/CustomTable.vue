@@ -15,6 +15,7 @@
     v-model:pagination="pagination"
     @request="onRequest"
     v-scroll="onScroll"
+    column-sort-order="da"
     >
     <template v-slot:top-right>
       <div class="row q-pt-xs">

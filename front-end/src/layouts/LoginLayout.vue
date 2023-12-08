@@ -1,6 +1,8 @@
 <template>
   <q-layout class="flex flex-center bg-background" view="hHh lpR fFf">
     <div class="column q-pa-md">
+
+
       <q-card class="bg-primary-light">
         <q-card-section class="bg-primary text-white">
           <div class="text-h3 text-center">Login</div>
