@@ -12,11 +12,19 @@
         />
 
         <q-toolbar-title>
-          <q-btn flat stretch to="/">
-            Ticketing App
-          </q-btn>
+          <q-btn flat stretch to="/"> Ticketing App </q-btn>
         </q-toolbar-title>
-
+        <q-toggle
+          v-model="darkModeEnabled"
+          checked-icon="dark_mode"
+          color="black"
+          unchecked-icon="light_mode"
+          @update:model-value="darkModeMixin().setDarkMode"
+        >
+          <q-tooltip>
+            {{ darkModeEnabled ? "Disable" : "Enable" }} Dark Mode
+          </q-tooltip>
+        </q-toggle>
         <q-btn
           stretch
           flat
@@ -28,16 +36,9 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label
-          header
-        >
-        </q-item-label>
+        <q-item-label header> </q-item-label>
 
         <EssentialLink
           v-for="link in linksList"
@@ -54,60 +55,67 @@
 </template>
 
 <script setup>
-  import { ref, onMounted} from 'vue'
-  import { useRouter } from 'vue-router'
-  import { useQuasar } from 'quasar'
-  import EssentialLink from 'components/EssentialLink.vue'
-  import { api } from 'boot/axios'
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useQuasar } from "quasar";
+import EssentialLink from "components/EssentialLink.vue";
+import { api } from "boot/axios";
+import { darkModeMixin } from "src/mixins/ticketSystemMixin.js";
 
-  const $q = useQuasar()
-  const router = useRouter()
+const $q = useQuasar();
+const router = useRouter();
+const leftDrawerOpen = ref(false);
 
-  const leftDrawerOpen = ref(false)
+const savedDarkMode = localStorage.getItem("ticket_app.dark_mode_enabled");
+const darkModeEnabled = ref(savedDarkMode ? JSON.parse(savedDarkMode) : false);
+$q.dark.set(darkModeEnabled.value);
 
-  const linksList = [
-    {
-      title: 'Tickets',
-      caption: 'Tickets Page',
-      icon: 'code',
-      link: '/ticket'
-    },
-    {
-      title: 'Articles',
-      caption: 'Knowledge Base Articles',
-      icon: 'book',
-      link: '/article'
-    }
-  ]
+const linksList = [
+  {
+    title: "Tickets",
+    caption: "Tickets Page",
+    icon: "code",
+    link: "/ticket",
+  },
+  {
+    title: "Articles",
+    caption: "Knowledge Base Articles",
+    icon: "book",
+    link: "/article",
+  },
+];
 
-  const logout = () => {
-      const response = api.post('/logout').then(response => {
-        $q.cookies.set('is_authenticated', false, {path: '/'});
-        router.push('/login')
-      }).catch(err => {
+const logout = () => {
+  const response = api
+    .post("/logout")
+    .then((response) => {
+      $q.cookies.set("is_authenticated", false, { path: "/" });
+      router.push("/login");
+    })
+    .catch((err) => {
       console.error(err);
     });
-  }
+};
 
-
-  onMounted(async () => {
-    await api.get('/sanctum/csrf-cookie')
-    await api.get('/api/user').then(response => {
+onMounted(async () => {
+  await api.get("/sanctum/csrf-cookie");
+  await api
+    .get("/api/user")
+    .then((response) => {
       if (response.status === 200) {
-        $q.cookies.set('is_authenticated', true, {path: '/'});
+        $q.cookies.set("is_authenticated", true, { path: "/" });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.response.status === 401) {
-        console.log(err.response.status )
-        $q.cookies.set('is_authenticated', false, {path: '/'});
+        console.log(err.response.status);
+        $q.cookies.set("is_authenticated", false, { path: "/" });
       }
       console.error(err);
     });
-  })
+});
 
-  function toggleLeftDrawer(){
-    leftDrawerOpen.value = !leftDrawerOpen.value
-  }
-
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+}
 </script>
